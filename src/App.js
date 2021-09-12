@@ -1,9 +1,10 @@
 import './App.css';
-import { Button } from 'react-bootstrap'
+import Register from './pages/Register/Register';
 
 function App() {
   return (
    <>
+   <Register />
    </>
   );
 }
