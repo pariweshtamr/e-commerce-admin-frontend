@@ -37,8 +37,8 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <InputGroup>
-                        <InputGroup.Radio name="gender">Male</InputGroup.Radio>
-                        <InputGroup.Radio name="gender">Female</InputGroup.Radio>
+                        <InputGroup.Radio name="gender" aria-label="Radio button for following text input">Male</InputGroup.Radio>
+                        <InputGroup.Radio name="gender" aria-label="Radio button for following text input">Female</InputGroup.Radio>
                     </InputGroup> 
                 </Form.Group>
                 <Form.Group className="mb-3">
