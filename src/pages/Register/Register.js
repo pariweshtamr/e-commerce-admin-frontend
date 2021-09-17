@@ -54,7 +54,7 @@ const Register = () => {
     return (
         <div className="register-page mb-5">
             <Card className="reg-form p-3">
-            <h2>Register new Admin User</h2>
+            <h2 className="text-center">Register new Admin User</h2>
             <hr />
             {isPending && <Spinner variant ="primary" animation="border" />}
 

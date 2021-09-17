@@ -1,4 +1,4 @@
-import { createSlice, isPending } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isPending: false,

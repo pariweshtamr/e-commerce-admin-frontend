@@ -6,7 +6,7 @@ const Login = () => {
     return (
         <div className="register-page mb-5">
         <Card className="reg-form p-3">
-        <h2>Admin Login</h2>
+        <h2 className="text-center">Admin Login</h2>
         <hr />
         <Form>
             <Form.Group className="mb-3">
