@@ -1,28 +1,40 @@
 import React, {useState} from 'react'
-import {Form, Card, Button, InputGroup, Alert} from 'react-bootstrap'
+import {Form, Card, Button, InputGroup, Alert, Spinner} from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { userRegister } from './userAction'
 
 const initialState = {
-    fname:"",
-    lname:"",
+    fname:"asdsd",
+    lname:"dfdaf",
     gender:"",
     dob:"",
-    phone:"",
-    address:"",
-    password:"",
-    confirmPassword: "",
+    phone:"124354234",
+    address:"123435",
+    password:"987654321",
+    confirmPassword: "987654321",
 }
 const Register = () => {
+    const dispatch = useDispatch()
     const [user, setUser] = useState(initialState)
     const[passwordError, setPasswordError] = useState("")
+
+    const {isPending, userRegistrationResponse} = useSelector(state => state.user)
 
     const handleOnSubmit = e => {
         //send form data to the server
         e.preventDefault()
 
         // check for the password confirmation
-        const {password, confirmPassword} = user
+        const {confirmPassword, ...newUser} = user
+        const {password} = user
 
-    password !== confirmPassword && setPasswordError("Password did not match!")
+        if(password !== confirmPassword){
+            setPasswordError("Password did not match!")
+            return
+        }
+
+        dispatch(userRegister(newUser))
+    
     }
 
     const handleOnChange = e => {
@@ -36,13 +48,17 @@ const Register = () => {
             ...user,
             [name]: value,
         })
-        console.log(user)
     }
+    console.log(userRegistrationResponse)
+
     return (
         <div className="register-page mb-5">
             <Card className="reg-form p-3">
             <h2>Register new Admin User</h2>
             <hr />
+            {isPending && <Spinner variant ="primary" animation="border" />}
+
+            {userRegistrationResponse?.message && <Alert variant={userRegistrationResponse?.status === "success" ? "success" : "danger"}>{userRegistrationResponse?.message}</Alert>}
             <Form action="/" onSubmit={handleOnSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label className="fw-bold">First Name</Form.Label>
@@ -57,9 +73,9 @@ const Register = () => {
                         <InputGroup>
                             <Form.Label className="genders">Male</Form.Label>
                                 <InputGroup.Radio onChange={handleOnChange} name="gender" defaultValue="male" 
-                                aria-label="Male" className="radio" />
+                                aria-label="Male"/>
                             <Form.Label className="genders ms-3">Female</Form.Label>
-                                <InputGroup.Radio onChange={handleOnChange} name="gender" defaultValue="female" aria-label="Female" className="radio" />
+                                <InputGroup.Radio onChange={handleOnChange} name="gender" defaultValue="female" aria-label="Female" />
                         </InputGroup> 
                 </Form.Group>
                 <Form.Group className="mb-3">
@@ -80,7 +96,7 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label className="fw-bold">Password</Form.Label>
-                    <Form.Control onChange={handleOnChange} name="password" type="password" placeholder="********" required />
+                    <Form.Control onChange={handleOnChange} minLength="7" name="password" type="password" placeholder="********" required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label className="fw-bold">Confirm Password</Form.Label>
