@@ -1,0 +1,32 @@
+.sidebar {
+  height: 100vh;
+}
+.side-menu {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.logo {
+  color: white;
+}
+a.logo {
+  text-decoration: none;
+}
+.menu-list {
+  color: white;
+  padding: 1rem;
+}
+.menu-list ul li {
+  list-style: none;
+}
+
+ul li a.menu-item {
+  list-style: none;
+  line-height: 4rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+}
+ul li a.menu-item:hover {
+  color: red;
+}
