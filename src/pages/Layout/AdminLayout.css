@@ -3,16 +3,17 @@
 }
 
 .left {
-  width: 350px;
+  width: 300px;
   border-right: 1px solid grey;
   height: 100vh;
   position: fixed;
   z-index: 999;
 }
 .right {
-  margin-left: 350px;
+  margin-left: 300px;
   width: 100%;
 }
 .main {
   min-height: 80vh;
+  padding: 1rem;
 }
