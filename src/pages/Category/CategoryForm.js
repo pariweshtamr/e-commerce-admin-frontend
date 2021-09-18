@@ -5,7 +5,6 @@ const initialState = {
     name: "",
     parentCat: ""
 }
-
 const CategoryForm = () => {
     const [newCat, setNewCat] = useState(initialState)
 
@@ -32,9 +31,9 @@ const CategoryForm = () => {
     <Col>
     <Form.Select name="parentCat" onChange={handleOnChange} aria-label="Select parent category">
         <option value="">Select parent category</option>
-        <option value="1"></option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option value="1">Sports</option>
+        <option value="2">Electronics</option>
+        <option value="3">Food</option>
     </Form.Select>
     </Col>
     <Col>
