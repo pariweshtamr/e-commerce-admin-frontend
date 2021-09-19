@@ -1,5 +1,5 @@
 import {catRequestPending, catResponseSuccess,fetchCatRespSuccess, catRequestFail} from './CategorySlice'
-import { createCategory, fetchCategory, deleteCategory } from "../../api/categoryAPI";
+import { createCategory, fetchCategory, deleteCategory, updateCategory } from "../../api/categoryAPI";
 
 
 export const createCat = newCategory => async dispatch => {
@@ -35,6 +35,20 @@ export const deleteCat = (_id) => async dispatch => {
 
     //call api
     const data = await deleteCategory(_id)
+
+    if(data.status === "success"){
+        dispatch(fetchCat())
+       return dispatch(catResponseSuccess(data))
+    } 
+    dispatch(catRequestFail(data))
+}
+
+export const updateCat = catObj => async dispatch => {
+    
+    dispatch(catRequestPending())
+
+    //call api
+    const data = await updateCategory(catObj)
 
     if(data.status === "success"){
         dispatch(fetchCat())
