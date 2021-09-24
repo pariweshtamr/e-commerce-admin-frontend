@@ -34,6 +34,11 @@ export const userEmailVerification = (userObj) => async (dispatch) => {
   //dispatch response
 };
 
+const setJwtInBrowserMemory = ({ accessJWT, refreshJWT }) => {
+  window.sessionStorage.setItem("accessJWT", accessJWT);
+  window.localStorage.setItem("refreshJWT", refreshJWT);
+};
+
 export const adminLogin = (loginInfo) => async (dispatch) => {
   dispatch(requestPending());
 
@@ -41,6 +46,7 @@ export const adminLogin = (loginInfo) => async (dispatch) => {
   const result = await loginUser(loginInfo);
   console.log(result);
   if (result?.status === "success") {
+    setJwtInBrowserMemory(result.jwts);
     return dispatch(loginSuccess(result.user));
   }
   dispatch(loginFail(result));
