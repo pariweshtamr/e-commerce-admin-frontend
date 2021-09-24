@@ -21,7 +21,7 @@ const EditCategoryForm = () => {
             parentCat: null,
             _id: selectedCategory._id
         })
-    },[selectedCategory.name])
+    },[selectedCategory.name, selectedCategory._id])
 
     const onHide = () => {
         dispatch(onCategorySelect())
