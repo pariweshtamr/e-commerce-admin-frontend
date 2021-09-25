@@ -45,10 +45,7 @@ export const deleteCategory = async (_id) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: "error",
-      message: error.message,
-    };
+    return error?.response?.data;
   }
 };
 
@@ -62,9 +59,6 @@ export const updateCategory = async (catObj) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: "error",
-      message: error.message,
-    };
+    return error?.response?.data;
   }
 };

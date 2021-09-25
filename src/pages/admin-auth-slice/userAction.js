@@ -17,7 +17,6 @@ import {
 import { getNewAccessJWT } from "../../api/tokenAPI";
 
 export const userRegister = (newUser) => async (dispatch) => {
-  console.log(newUser);
   dispatch(requestPending());
 
   //call api
@@ -53,7 +52,6 @@ export const adminLogin = (loginInfo) => async (dispatch) => {
 
   //call api to login
   const result = await loginUser(loginInfo);
-  console.log(result);
   if (result?.status === "success") {
     setJwtInBrowserMemory(result.jwts);
     return dispatch(loginSuccess(result.user));

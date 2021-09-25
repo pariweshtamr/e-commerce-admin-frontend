@@ -18,6 +18,15 @@ export const createCat = (newCategory) => async (dispatch) => {
 
   //call api
   const data = await createCategory(newCategory);
+  if (data?.message === "jwt expired") {
+    //request for new accessJWT
+    const token = await updateAccessJWT();
+    if (token) {
+      return dispatch(createCat(newCategory));
+    } else {
+      dispatch(userLogout());
+    }
+  }
 
   if (data?.status === "success") {
     dispatch(fetchCat());
@@ -31,7 +40,6 @@ export const fetchCat = () => async (dispatch) => {
 
   //call api
   const { status, message, categories } = await fetchCategory();
-  console.log(message, "from action");
 
   if (message === "jwt expired") {
     //request for new accessJWT
@@ -54,6 +62,15 @@ export const deleteCat = (_id) => async (dispatch) => {
 
   //call api
   const data = await deleteCategory(_id);
+  if (data?.message === "jwt expired") {
+    //request for new accessJWT
+    const token = await updateAccessJWT();
+    if (token) {
+      return dispatch(deleteCat(_id));
+    } else {
+      dispatch(userLogout());
+    }
+  }
 
   if (data.status === "success") {
     dispatch(fetchCat());
@@ -67,6 +84,15 @@ export const updateCat = (catObj) => async (dispatch) => {
 
   //call api
   const data = await updateCategory(catObj);
+  if (data?.message === "jwt expired") {
+    //request for new accessJWT
+    const token = await updateAccessJWT();
+    if (token) {
+      return dispatch(updateCat(catObj));
+    } else {
+      dispatch(userLogout());
+    }
+  }
 
   if (data.status === "success") {
     dispatch(fetchCat());
