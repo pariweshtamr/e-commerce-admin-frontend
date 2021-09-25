@@ -27,9 +27,18 @@ const userSlice = createSlice({
       state.isPending = false;
     },
 
+    loginAuto: (state) => {
+      state.isLoggedIn = true;
+    },
+
     loginFail: (state, { payload }) => {
       state.isPending = false;
       state.userLoginResponse = payload || {};
+    },
+
+    userLogoutSuccess: (state) => {
+      state.userInfo = {};
+      state.isLoggedIn = false;
     },
 
     requestFail: (state, { payload }) => {
@@ -45,7 +54,9 @@ export const {
   requestPending,
   responseSuccess,
   loginSuccess,
+  loginAuto,
   loginFail,
+  userLogoutSuccess,
   requestFail,
 } = actions;
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Card, Button, Spinner, Alert } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { adminLogin } from "../admin-auth-slice/userAction";
+import { useHistory, useLocation } from "react-router-dom";
+import { adminLogin, autoLogin } from "../admin-auth-slice/userAction";
 
 const initialState = {
   email: "a@a.com",
@@ -11,6 +11,7 @@ const initialState = {
 
 const Login = () => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const { isLoggedIn, isPending, userLoginResponse } = useSelector(
@@ -19,9 +20,14 @@ const Login = () => {
 
   const [loginInfo, setLoginInfo] = useState(initialState);
 
+  console.log(location?.state?.from?.pathname);
+  const from = location?.state?.from?.pathname || "/dashboard";
+
   useEffect(() => {
-    isLoggedIn && history.push("/dashboard");
-  }, [isLoggedIn, history]);
+    !isLoggedIn && dispatch(autoLogin());
+
+    isLoggedIn && history.replace(from);
+  }, [isLoggedIn, history, dispatch, from]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
