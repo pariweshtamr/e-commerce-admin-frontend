@@ -20,7 +20,6 @@ const Login = () => {
 
   const [loginInfo, setLoginInfo] = useState(initialState);
 
-  console.log(location?.state?.from?.pathname);
   const from = location?.state?.from?.pathname || "/dashboard";
 
   useEffect(() => {
@@ -39,15 +38,16 @@ const Login = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = loginInfo;
+    // const { email, password } = loginInfo;
 
-    if (!email && !password) {
-      return alert("You must provide both the email and password.");
-    }
+    // if (!email && !password) {
+    //   return alert("You must provide both the email and password.");
+    // }
     dispatch(adminLogin(loginInfo));
   };
+
   return (
-    <div className="register-page mb-5">
+    <div className="register-page">
       <Card className="reg-form p-3">
         <h2 className="text-center">Admin Login</h2>
         {isPending && <Spinner variant="primary" animation="border" />}

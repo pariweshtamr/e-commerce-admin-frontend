@@ -5,6 +5,7 @@ import {
   loginAuto,
   loginFail,
   userLogoutSuccess,
+  autoLoginPending,
   requestFail,
 } from "./userSlice";
 import { createUser, verifyNewUser, loginUser } from "../../api/userAPI";
@@ -56,6 +57,7 @@ export const adminLogin = (loginInfo) => async (dispatch) => {
 };
 
 export const autoLogin = () => async (dispatch) => {
+  dispatch(autoLoginPending(true));
   const accessJWT = window.sessionStorage.getItem("accessJWT");
   const refreshJWT = window.localStorage.getItem("refreshJWT");
 
@@ -74,8 +76,6 @@ export const autoLogin = () => async (dispatch) => {
     }
     dispatch(userLogout());
   }
-
-  //3. no jwt exists
 };
 
 export const userLogout = () => (dispatch) => {

@@ -6,11 +6,21 @@
 }
 
 /* ==========Registration page============= */
+.register-page {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url(./assets/images/bg.jpg);
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .reg-form {
   width: 500px;
   margin: auto;
-  margin-top: 20vh;
   box-shadow: -5px 5px 5px 5px grey;
+  opacity: 0.8;
 }
 .genders {
   margin-right: 0.5rem;
