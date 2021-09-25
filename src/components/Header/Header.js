@@ -5,6 +5,10 @@ import { userLogout } from "../../pages/admin-auth-slice/userAction";
 
 const Header = () => {
   const dispatch = useDispatch();
+
+  const handleOnLogout = () => {
+    dispatch(userLogout());
+  };
   return (
     <>
       <Navbar collapseOnSelect bg="Light" expand="md">
@@ -12,9 +16,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link onClick={() => dispatch(userLogout())}>
-                Log Out
-              </Nav.Link>
+              <Nav.Link onClick={handleOnLogout}>Log Out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

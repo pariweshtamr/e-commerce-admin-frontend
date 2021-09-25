@@ -16,10 +16,7 @@ export const createCategory = async (newCategory) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: "error",
-      message: error.message,
-    };
+    return error?.response?.data;
   }
 };
 
@@ -33,11 +30,8 @@ export const fetchCategory = async () => {
 
     return data;
   } catch (error) {
-    console.log(error);
-    return {
-      status: "error",
-      message: error.message,
-    };
+    console.log(error.response);
+    return error?.response?.data;
   }
 };
 
