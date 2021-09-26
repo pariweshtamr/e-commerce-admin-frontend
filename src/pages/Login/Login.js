@@ -88,11 +88,6 @@ const Login = () => {
             Login
           </Button>
         </Form>
-
-        <h5 className="text-center mt-5">No account?</h5>
-        <a href="/registration" className="text-center">
-          Register Now
-        </a>
       </Card>
     </div>
   );

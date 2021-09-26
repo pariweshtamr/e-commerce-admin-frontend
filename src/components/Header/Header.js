@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../pages/admin-auth-slice/userAction";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <NavLink exact to="/admin-profile">
+                <i class="fas fa-user"></i>
+              </NavLink>
               <Nav.Link onClick={handleOnLogout}>Log Out</Nav.Link>
             </Nav>
           </Navbar.Collapse>

@@ -6,7 +6,7 @@
 }
 
 /* ==========Registration page============= */
-.register-page {
+/* .register-page {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url(./assets/images/bg.jpg);
   background-size: cover;
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 .reg-form {
   width: 500px;
   margin: auto;

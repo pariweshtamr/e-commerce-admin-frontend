@@ -5,6 +5,7 @@ import {
   loginAuto,
   loginFail,
   userLogoutSuccess,
+  profileUpdateSuccess,
   autoLoginPending,
   requestFail,
 } from "./userSlice";
@@ -12,9 +13,11 @@ import {
   createUser,
   verifyNewUser,
   loginUser,
+  getUser,
+  updateUserProfile,
   logoutUser,
 } from "../../api/userAPI";
-import { getNewAccessJWT } from "../../api/tokenAPI";
+import { getNewAccessJWT, updateAccessJWT } from "../../api/tokenAPI";
 
 export const userRegister = (newUser) => async (dispatch) => {
   dispatch(requestPending());
@@ -91,4 +94,40 @@ export const userLogout = () => async (dispatch) => {
   window.localStorage.removeItem("refreshJWT");
 
   dispatch(userLogoutSuccess());
+};
+
+export const fetchUser = () => async (dispatch) => {
+  dispatch(requestPending());
+  const data = await getUser();
+  if (data?.message === "jwt expired") {
+    //request for new accessJWT
+    const token = await updateAccessJWT();
+    if (token) {
+      return dispatch(fetchUser());
+    } else {
+      dispatch(userLogout());
+    }
+  }
+
+  if (data?.user) {
+    return dispatch(loginSuccess(data.user));
+  }
+  dispatch(requestFail(data));
+};
+
+export const updateProfileUser = (userInfo) => async (dispatch) => {
+  dispatch(requestPending());
+  const data = await updateUserProfile(userInfo);
+  if (data?.message === "jwt expired") {
+    //request for new accessJWT
+    const token = await updateAccessJWT();
+    if (token) {
+      return dispatch(updateProfileUser(userInfo));
+    } else {
+      dispatch(userLogout());
+    }
+  }
+
+  dispatch(profileUpdateSuccess(data));
+  
 };
