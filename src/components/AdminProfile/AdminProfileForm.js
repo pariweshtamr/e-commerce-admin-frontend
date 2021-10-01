@@ -22,6 +22,7 @@ const initialProfileState = {
   address: '',
 }
 
+// update admin profile
 export const AdminProfileForm = () => {
   const dispatch = useDispatch()
 
@@ -217,6 +218,7 @@ export const AdminPasswordResetForm = () => {
   const [passError, setPassError] = useState(passErrorInitial)
 
   const { isPending, userUpdateResponse } = useSelector((state) => state.user)
+
   const handleOnSubmit = (e) => {
     e.preventDefault()
 

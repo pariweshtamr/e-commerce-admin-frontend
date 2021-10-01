@@ -1,37 +1,54 @@
-import axios from "axios";
+import axios from 'axios'
 
 const rootUrl =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? process.env.ROOT_URL
-    : "http://localhost:8000/api/v1";
-const tokenApi = rootUrl + "/token";
+    : 'http://localhost:8000/api/v1'
+const tokenApi = rootUrl + '/token'
 
 export const getNewAccessJWT = async () => {
   try {
     const { data } = await axios.get(tokenApi, {
       headers: {
-        Authorization: window.localStorage.getItem("refreshJWT"),
+        Authorization: window.localStorage.getItem('refreshJWT'),
       },
-    });
+    })
 
-    return data;
+    return data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const updateAccessJWT = async () => {
   try {
-    window.sessionStorage.removeItem("accessJWT");
+    window.sessionStorage.removeItem('accessJWT')
 
-    const { accessJWT } = await getNewAccessJWT();
+    const { accessJWT } = await getNewAccessJWT()
     if (accessJWT) {
-      window.sessionStorage.setItem("accessJWT", accessJWT);
+      window.sessionStorage.setItem('accessJWT', accessJWT)
     }
 
-    return window.sessionStorage.getItem("accessJWT");
+    return window.sessionStorage.getItem('accessJWT')
   } catch (error) {
-    console.log(error);
-    return false;
+    console.log(error)
+    return false
   }
-};
+}
+
+export const requestOTP = async (email) => {
+  try {
+    if (!email) {
+      return false
+    }
+
+    const { data } = await axios.post(tokenApi + '/request-otp', { email })
+    return data
+  } catch (error) {
+    console.log(error)
+    return {
+      status: 'error',
+      message: error.message,
+    }
+  }
+}

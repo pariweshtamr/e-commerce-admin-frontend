@@ -55,8 +55,8 @@ const Register = () => {
 
   return (
     <AdminLayout>
-      <div className="register-page mb-5">
-        <Card className="reg-form p-3">
+      <div className="register-page">
+        <Card className="reg-form p-3 my-5">
           <h2 className="text-center">Register new Admin User</h2>
           <hr />
           {isPending && <Spinner variant="primary" animation="border" />}

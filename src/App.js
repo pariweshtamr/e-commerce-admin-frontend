@@ -6,6 +6,7 @@ import Product from './pages/Product/Product'
 import Order from './pages/Order/Order'
 import Customer from './pages/Customer/Customer'
 import AdminProfile from './pages/Admin-profile/AdminProfile'
+import ResetPassword from './pages/PasswordReset/ResetPassword'
 import Payment from './pages/Payment/Payment'
 import Login from './pages/Login/Login'
 import PageNotFound from './components/PageNotFound/PageNotFound'
@@ -43,6 +44,7 @@ function App() {
         </PrivateRoute>
 
         <Route path="/email-verification" children={<EmailVerification />} />
+        <Route path="/reset-password" children={<ResetPassword />} />
 
         <Route exact path="/" children={<Login />} />
         <Route path="*" children={<PageNotFound />} />

@@ -9,6 +9,7 @@ import {
   autoLoginPending,
   requestFail,
   passwordUpdateSuccess,
+  resetPassResponse,
 } from './userSlice'
 import {
   createUser,
@@ -19,7 +20,11 @@ import {
   logoutUser,
   updateUserPassword,
 } from '../../api/userAPI'
-import { getNewAccessJWT, updateAccessJWT } from '../../api/tokenAPI'
+import {
+  getNewAccessJWT,
+  updateAccessJWT,
+  requestOTP,
+} from '../../api/tokenAPI'
 
 export const userRegister = (newUser) => async (dispatch) => {
   dispatch(requestPending())
@@ -147,4 +152,11 @@ export const updatePasswordUser = (passInfo) => async (dispatch) => {
   }
 
   dispatch(passwordUpdateSuccess(data))
+}
+
+export const requestPassResetOTP = (email) => async (dispatch) => {
+  dispatch(requestPending())
+  const data = await requestOTP(email)
+
+  dispatch(resetPassResponse(data))
 }
