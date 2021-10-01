@@ -27,7 +27,7 @@ export const AdminProfileForm = () => {
 
   const [adminProfile, setAdminProfile] = useState(initialProfileState)
 
-  const { userInfo, isPending, userUpdateResp } = useSelector(
+  const { userInfo, isPending, userUpdateResponse } = useSelector(
     (state) => state.user,
   )
 
@@ -72,11 +72,13 @@ export const AdminProfileForm = () => {
       <hr />
       {isPending && <Spinner variant="primary" animation="border" />}
 
-      {userUpdateResp?.message && (
+      {userUpdateResponse?.message && (
         <Alert
-          variant={userUpdateResp?.status === 'success' ? 'success' : 'danger'}
+          variant={
+            userUpdateResponse?.status === 'success' ? 'success' : 'danger'
+          }
         >
-          {userUpdateResp?.message}
+          {userUpdateResponse?.message}
         </Alert>
       )}
       <Form action="/" onSubmit={handleOnSubmit}>
@@ -214,7 +216,7 @@ export const AdminPasswordResetForm = () => {
   const [updatePass, setUpdatePass] = useState(initialPassword)
   const [passError, setPassError] = useState(passErrorInitial)
 
-  const { isPending, userUpdateResp } = useSelector((state) => state.user)
+  const { isPending, userUpdateResponse } = useSelector((state) => state.user)
   const handleOnSubmit = (e) => {
     e.preventDefault()
 
@@ -260,13 +262,14 @@ export const AdminPasswordResetForm = () => {
 
   return (
     <div>
-      {isPending && <Spinner variant="primary" animation="border" />}
-
-      {userUpdateResp?.message && (
+      {isPending && <Spinner variant="primary" animation="border" />}``
+      {userUpdateResponse?.message && (
         <Alert
-          variant={userUpdateResp?.status === 'success' ? 'success' : 'danger'}
+          variant={
+            userUpdateResponse?.status === 'success' ? 'success' : 'danger'
+          }
         >
-          {userUpdateResp?.message}
+          {userUpdateResponse?.message}
         </Alert>
       )}
       <Form onSubmit={handleOnSubmit}>
