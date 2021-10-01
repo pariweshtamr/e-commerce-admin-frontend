@@ -1,64 +1,57 @@
-import React, { useState } from "react";
-import {
-  Form,
-  Card,
-  Button,
-  InputGroup,
-  Alert,
-  Spinner,
-} from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { userRegister } from "../admin-auth-slice/userAction";
-import AdminLayout from "../Layout/AdminLayout";
+import React, { useState } from 'react'
+import { Form, Card, Button, InputGroup, Alert, Spinner } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { userRegister } from '../admin-auth-slice/userAction'
+import AdminLayout from '../Layout/AdminLayout'
 
 const initialState = {
-  fname: "asdsd",
-  lname: "dfdaf",
-  gender: "",
-  dob: "",
-  phone: "124354234",
-  address: "123435",
-  password: "987654321",
-  confirmPassword: "987654321",
-};
+  fname: 'asdsd',
+  lname: 'dfdaf',
+  gender: '',
+  dob: '',
+  phone: '124354234',
+  address: '123435',
+  password: '987654321',
+  confirmPassword: '987654321',
+}
 const Register = () => {
-  const dispatch = useDispatch();
-  const [user, setUser] = useState(initialState);
-  const [passwordError, setPasswordError] = useState("");
+  const dispatch = useDispatch()
+  const [user, setUser] = useState(initialState)
+  const [passwordError, setPasswordError] = useState('')
 
   const { isPending, userRegistrationResponse } = useSelector(
-    (state) => state.user
-  );
+    (state) => state.user,
+  )
 
   const handleOnSubmit = (e) => {
     //send form data to the server
-    e.preventDefault();
+    e.preventDefault()
 
     // check for the password confirmation
-    const { confirmPassword, ...newUser } = user;
-    const { password } = user;
+    const { confirmPassword, ...newUser } = user
+    const { password } = user
 
     if (password !== confirmPassword) {
-      setPasswordError("Password did not match!");
-      return;
+      setPasswordError('Password did not match!')
+      return
     }
 
-    dispatch(userRegister(newUser));
-  };
+    dispatch(userRegister(newUser))
+  }
 
   const handleOnChange = (e) => {
     // set value in the state
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     //reset error msg
-    passwordError && name === "confirmPassword" && setPasswordError("");
+    passwordError && name === 'confirmPassword' && setPasswordError('')
 
     setUser({
       ...user,
       [name]: value,
-    });
-  };
-  console.log(userRegistrationResponse);
+    })
+  }
+  console.log(userRegistrationResponse)
 
   return (
     <AdminLayout>
@@ -71,9 +64,9 @@ const Register = () => {
           {userRegistrationResponse?.message && (
             <Alert
               variant={
-                userRegistrationResponse?.status === "success"
-                  ? "success"
-                  : "danger"
+                userRegistrationResponse?.status === 'success'
+                  ? 'success'
+                  : 'danger'
               }
             >
               {userRegistrationResponse?.message}
@@ -182,7 +175,7 @@ const Register = () => {
         </Card>
       </div>
     </AdminLayout>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

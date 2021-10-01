@@ -1,60 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Card, Button, Spinner, Alert } from "react-bootstrap";
-import { useHistory, useLocation } from "react-router-dom";
-import { adminLogin, autoLogin } from "../admin-auth-slice/userAction";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Form, Card, Button, Spinner, Alert } from 'react-bootstrap'
+import { useHistory, useLocation } from 'react-router-dom'
+import { adminLogin, autoLogin } from '../admin-auth-slice/userAction'
 
 const initialState = {
-  email: "a@a.com",
-  password: "1234567",
-};
+  email: 'a@a.com',
+  password: '1234567',
+}
 
 const Login = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const history = useHistory()
+  const location = useLocation()
+  const dispatch = useDispatch()
 
   const { isLoggedIn, isPending, userLoginResponse } = useSelector(
-    (state) => state.user
-  );
+    (state) => state.user,
+  )
 
-  const [loginInfo, setLoginInfo] = useState(initialState);
+  const [loginInfo, setLoginInfo] = useState(initialState)
 
-  const from = location?.state?.from?.pathname || "/dashboard";
+  const from = location?.state?.from?.pathname || '/dashboard'
 
   useEffect(() => {
-    !isLoggedIn && dispatch(autoLogin());
+    !isLoggedIn && dispatch(autoLogin())
 
-    isLoggedIn && history.replace(from);
-  }, [isLoggedIn, history, dispatch, from]);
+    isLoggedIn && history.replace(from)
+  }, [isLoggedIn, history, dispatch, from])
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setLoginInfo({
       ...loginInfo,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleOnSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     // const { email, password } = loginInfo;
 
     // if (!email && !password) {
     //   return alert("You must provide both the email and password.");
     // }
-    dispatch(adminLogin(loginInfo));
-  };
+    dispatch(adminLogin(loginInfo))
+  }
 
   return (
-    <div className="register-page">
+    <div className="login-page">
       <Card className="reg-form p-3">
         <h2 className="text-center">Admin Login</h2>
         {isPending && <Spinner variant="primary" animation="border" />}
         {userLoginResponse.message && (
           <Alert
             variant={
-              userLoginResponse.status === "success" ? "success" : "danger"
+              userLoginResponse.status === 'success' ? 'success' : 'danger'
             }
           >
             {userLoginResponse.message}
@@ -90,7 +90,7 @@ const Login = () => {
         </Form>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

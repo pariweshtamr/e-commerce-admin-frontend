@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   userInfo: {},
@@ -8,60 +8,65 @@ const initialState = {
   userLoginResponse: {},
   isAutoLoginPending: false,
   userUpdateResponse: {},
-};
+}
 const userSlice = createSlice({
-  name: "userSlice",
+  name: 'userSlice',
   initialState,
   reducers: {
     requestPending: (state) => {
-      state.isPending = true;
+      state.isPending = true
     },
 
     responseSuccess: (state, { payload }) => {
-      state.isPending = false;
-      state.userRegistrationResponse = payload || {};
+      state.isPending = false
+      state.userRegistrationResponse = payload || {}
     },
 
     loginSuccess: (state, { payload }) => {
-      state.userInfo = payload || {};
-      state.userLoginResponse = {};
-      state.isLoggedIn = true;
-      state.isPending = false;
+      state.userInfo = payload || {}
+      state.userLoginResponse = {}
+      state.isLoggedIn = true
+      state.isPending = false
     },
 
     profileUpdateSuccess: (state, { payload }) => {
-      state.userUpdateResponse = payload || {};
-      state.isPending = false;
+      state.userUpdateResponse = payload || {}
+      state.isPending = false
+    },
+
+    passwordUpdateSuccess: (state, { payload }) => {
+      state.userUpdateResponse = payload || {}
+      state.isPending = false
     },
 
     loginAuto: (state) => {
-      state.isLoggedIn = true;
-      state.isAutoLoginPending = false;
+      state.isLoggedIn = true
+      state.isAutoLoginPending = false
     },
 
     loginFail: (state, { payload }) => {
-      state.isPending = false;
-      state.userLoginResponse = payload || {};
+      state.isPending = false
+      state.userLoginResponse = payload || {}
     },
 
     userLogoutSuccess: (state) => {
-      state.userInfo = {};
-      state.isLoggedIn = false;
-      state.isAutoLoginPending = false;
+      state.userInfo = {}
+      state.isLoggedIn = false
+      state.isAutoLoginPending = false
     },
 
     autoLoginPending: (state, { payload }) => {
-      state.isAutoLoginPending = payload;
+      state.isAutoLoginPending = payload
     },
 
     requestFail: (state, { payload }) => {
-      state.isPending = false;
-      state.userRegistrationResponse = payload || {};
+      state.isPending = false
+      state.userRegistrationResponse = payload || {}
     },
   },
-});
+})
 
-const { reducer, actions } = userSlice;
+const { reducer, actions } = userSlice
 
 export const {
   requestPending,
@@ -72,7 +77,8 @@ export const {
   userLogoutSuccess,
   autoLoginPending,
   profileUpdateSuccess,
+  passwordUpdateSuccess,
   requestFail,
-} = actions;
+} = actions
 
-export default reducer;
+export default reducer

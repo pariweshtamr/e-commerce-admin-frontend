@@ -1,78 +1,84 @@
-import React, { useState, useEffect } from "react";
-import { Form, InputGroup, Spinner, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { updateProfileUser } from "../../pages/admin-auth-slice/userAction";
+import React, { useState, useEffect } from 'react'
+import {
+  Form,
+  InputGroup,
+  Spinner,
+  Button,
+  ListGroup,
+  Alert,
+} from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  updateProfileUser,
+  updatePasswordUser,
+} from '../../pages/admin-auth-slice/userAction'
 
 const initialProfileState = {
-  fname: "",
-  lname: "",
-  gender: "",
-  dob: "",
-  phone: "",
-  address: "",
-};
+  fname: '',
+  lname: '',
+  gender: '',
+  dob: '',
+  phone: '',
+  address: '',
+}
 
 export const AdminProfileForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [adminProfile, setAdminProfile] = useState(initialProfileState);
+  const [adminProfile, setAdminProfile] = useState(initialProfileState)
 
-  const { userInfo, isPending } = useSelector((state) => state.user);
+  const { userInfo, isPending, userUpdateResp } = useSelector(
+    (state) => state.user,
+  )
 
   useEffect(() => {
-    setAdminProfile(userInfo);
-  }, [userInfo]);
+    setAdminProfile(userInfo)
+  }, [userInfo])
 
   const handleOnSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const { email, phone, address } = adminProfile;
+    const { email, phone, address } = adminProfile
 
     if (
       userInfo.email !== email ||
       userInfo.phone !== phone ||
       userInfo.address !== address
     ) {
-      if (window.confirm("Are you sure you want to make these changes?")) {
-        console.log("TODO call api to update the user");
-
+      if (window.confirm('Are you sure you want to make these changes?')) {
         const update = {
           email,
           phone,
           address,
-        };
-        dispatch(updateProfileUser(userInfo));
+        }
+        dispatch(updateProfileUser(update))
       }
-      return;
+      return
     }
-    return alert("No information has been changed");
-  };
+    return alert('No information has been changed')
+  }
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setAdminProfile({
       ...adminProfile,
       [name]: value,
-    });
-  };
+    })
+  }
   return (
     <div className="admin-profile-page">
       <h2>Welcome {userInfo.fname}!</h2>
       <hr />
       {isPending && <Spinner variant="primary" animation="border" />}
 
-      {/* {userRegistrationResponse?.message && (
+      {userUpdateResp?.message && (
         <Alert
-          variant={
-            userRegistrationResponse?.status === "success"
-              ? "success"
-              : "danger"
-          }
+          variant={userUpdateResp?.status === 'success' ? 'success' : 'danger'}
         >
-          {userRegistrationResponse?.message}
+          {userUpdateResp?.message}
         </Alert>
-      )} */}
+      )}
       <Form action="/" onSubmit={handleOnSubmit}>
         <Form.Group className="mb-3">
           <Form.Label className="fw-bold">First Name</Form.Label>
@@ -104,7 +110,7 @@ export const AdminProfileForm = () => {
               onChange={handleOnChange}
               name="gender"
               defaultValue="male"
-              checked={adminProfile.gender === "Male"}
+              checked={adminProfile.gender === 'Male'}
               aria-label="Male"
               disabled
             />
@@ -112,7 +118,7 @@ export const AdminProfileForm = () => {
             <InputGroup.Radio
               onChange={handleOnChange}
               name="gender"
-              checked={adminProfile.gender === "Female"}
+              checked={adminProfile.gender === 'Female'}
               defaultValue="female"
               aria-label="Female"
               disabled
@@ -131,7 +137,7 @@ export const AdminProfileForm = () => {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label className="fw-bold">
-            Email *{" "}
+            Email *{' '}
             {adminProfile.isEmailConfirmed ? (
               <i
                 title="verified email"
@@ -183,23 +189,98 @@ export const AdminProfileForm = () => {
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}
+
+// UPDATE PASSWORD
+
+const initialPassword = {
+  currentPassword: '',
+  password: '',
+  confirmPassword: '',
+}
+const passErrorInitial = {
+  isMatched: false,
+  isLengthy: false,
+  hasLowerCase: false,
+  hasUpperCase: false,
+  hasNumber: false,
+  hasSpecialChar: false,
+}
 
 export const AdminPasswordResetForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { userInfo, isPending } = useSelector((state) => state.user);
+  const [updatePass, setUpdatePass] = useState(initialPassword)
+  const [passError, setPassError] = useState(passErrorInitial)
+
+  const { isPending, userUpdateResp } = useSelector((state) => state.user)
   const handleOnSubmit = (e) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+
+    const { currentPassword, password } = updatePass
+    dispatch(updatePasswordUser({ currentPassword, password }))
+  }
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
-  };
+    const { name, value } = e.target
+    // validation testing
+    let isMatched = false
+    if (name === 'password') {
+      setPassError({
+        ...passError,
+        isMatched: updatePass.confirmPassword === value,
+      })
+    }
+
+    if (name === 'confirmPassword') {
+      isMatched = updatePass.password === value
+      const isLengthy = value.length >= 7
+      const hasLowerCase = /[a-z]/.test(value)
+      const hasUpperCase = /[A-Z]/.test(value)
+      const hasNumber = /[0-9]/.test(value)
+      const hasSpecialChar = /[., !, @, #, $, %, ^, &, *, _, (, )]/.test(value)
+
+      setPassError({
+        ...passError,
+        isMatched,
+        isLengthy,
+        hasLowerCase,
+        hasUpperCase,
+        hasNumber,
+        hasSpecialChar,
+      })
+    }
+
+    setUpdatePass({
+      ...updatePass,
+      [name]: value,
+    })
+  }
+
   return (
     <div>
+      {isPending && <Spinner variant="primary" animation="border" />}
+
+      {userUpdateResp?.message && (
+        <Alert
+          variant={userUpdateResp?.status === 'success' ? 'success' : 'danger'}
+        >
+          {userUpdateResp?.message}
+        </Alert>
+      )}
       <Form onSubmit={handleOnSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label className="fw-bold">Current Password</Form.Label>
+          <Form.Control
+            onChange={handleOnChange}
+            minLength="7"
+            name="currentPassword"
+            type="password"
+            placeholder="Enter current password"
+            required
+          />
+        </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label className="fw-bold">Password</Form.Label>
           <Form.Control
@@ -221,12 +302,46 @@ export const AdminPasswordResetForm = () => {
           />
           {/* {passwordError && <Alert variant="danger">{passwordError}</Alert>} */}
         </Form.Group>
-        <div className="d-grip gap-2">
-          <Button variant="warning" type="submit">
+
+        <ListGroup>
+          <h5>Password Rules</h5>
+          <ListGroup.Item variant={passError.isMatched ? 'success' : 'danger'}>
+            Password match
+          </ListGroup.Item>
+          <ListGroup.Item variant={passError.isLengthy ? 'success' : 'danger'}>
+            must be atleast 7 characters
+          </ListGroup.Item>
+          <ListGroup.Item variant={passError.hasNumber ? 'success' : 'danger'}>
+            must include number
+          </ListGroup.Item>
+          <ListGroup.Item
+            variant={passError.hasUpperCase ? 'success' : 'danger'}
+          >
+            must include uppercase
+          </ListGroup.Item>
+          <ListGroup.Item
+            variant={passError.hasLowerCase ? 'success' : 'danger'}
+          >
+            must include lowercase
+          </ListGroup.Item>
+          <ListGroup.Item
+            variant={passError.hasSpecialChar ? 'success' : 'danger'}
+          >
+            must include one of the following special characters i.e. . ! @ # $
+            % ^ & * _ ( )
+          </ListGroup.Item>
+        </ListGroup>
+        <div className="d-grip gap-2 mt-3">
+          <Button
+            variant="warning"
+            type="submit"
+            size="lg"
+            disabled={Object.values(passError).includes(false)}
+          >
             Update Password
           </Button>
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}

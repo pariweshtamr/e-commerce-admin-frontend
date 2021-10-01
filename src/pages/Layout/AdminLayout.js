@@ -1,9 +1,9 @@
-import React from "react";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import React from 'react'
+import Header from '../../components/Header/Header'
+import Footer from '../../components/Footer/Footer'
+import Sidebar from '../../components/Sidebar/Sidebar'
 
-import "./AdminLayout.css";
+import './AdminLayout.css'
 
 const AdminLayout = ({ children }) => {
   return (
@@ -14,10 +14,10 @@ const AdminLayout = ({ children }) => {
       <div className="right">
         <Header />
         <div className="main">{children}</div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminLayout;
+export default AdminLayout
