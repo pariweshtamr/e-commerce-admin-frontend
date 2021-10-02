@@ -62,17 +62,7 @@ const PasswordResetForm = () => {
               onChange={handleOnChange}
             />
           </Form.Group>
-          {/* <Form.Group className="mb-3">
-            <Form.Label className="fw-bold">Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="********"
-              required
-              value={loginInfo.password}
-              onChange={handleOnChange}
-            />
-          </Form.Group> */}
+
           <Button type="submit" variant="success">
             Request OTP
           </Button>

@@ -10,6 +10,7 @@ const initialState = {
   userUpdateResponse: {},
   showResetPasswordForm: false,
   resetPasswordRequestResponse: {},
+  passwordResettingEmail: {},
 }
 const userSlice = createSlice({
   name: 'userSlice',
@@ -67,8 +68,9 @@ const userSlice = createSlice({
 
     resetPassResponse: (state, { payload }) => {
       state.isPending = false
-      state.resetPasswordRequestResponse = payload
-      state.showResetPasswordForm = payload.status !== 'success'
+      state.resetPasswordRequestResponse = payload.data
+      state.passwordResettingEmail = payload.email
+      state.showResetPasswordForm = payload.data.status === 'success'
     },
 
     requestFail: (state, { payload }) => {

@@ -19,6 +19,7 @@ import {
   updateUserProfile,
   logoutUser,
   updateUserPassword,
+  resetForgotPassword,
 } from '../../api/userAPI'
 import {
   getNewAccessJWT,
@@ -158,5 +159,12 @@ export const requestPassResetOTP = (email) => async (dispatch) => {
   dispatch(requestPending())
   const data = await requestOTP(email)
 
-  dispatch(resetPassResponse(data))
+  dispatch(resetPassResponse({ data, email }))
+}
+
+export const resetPasswordAction = (passObj) => async (dispatch) => {
+  dispatch(requestPending())
+  const data = await resetForgotPassword(passObj)
+
+  dispatch(resetPassResponse({ data }))
 }
