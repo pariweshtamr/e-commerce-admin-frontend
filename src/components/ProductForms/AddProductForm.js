@@ -9,8 +9,8 @@ const initialState = {
   title: '',
   price: 0,
   salesPrice: 0,
-  salesStartDate: null,
-  salesEndDate: null,
+  salesStartDate: '',
+  salesEndDate: '',
   brand: '',
   qty: 0,
   description: '',
@@ -20,6 +20,7 @@ const initialState = {
 const AddProductForm = () => {
   const dispatch = useDispatch()
   const [product, setProduct] = useState(initialState)
+  const [images, setImages] = useState([])
 
   const { categories } = useSelector((state) => state.category)
   const { isPending, productResponse } = useSelector((state) => state.product)
@@ -52,9 +53,25 @@ const AddProductForm = () => {
     })
   }
 
+  const handleOnImageSelect = (e) => {
+    const { name, files } = e.target
+
+    setImages(files)
+  }
+
   const handleOnSubmit = (e) => {
     e.preventDefault()
-    dispatch(addProductAction(product))
+
+    // combine forma data and images as multipart of form
+
+    const formData = new FormData()
+
+    for (const key in product) {
+      formData.append(key, product[key])
+    }
+    images.length && [...images].map((img) => formData.append('images', img))
+
+    dispatch(addProductAction(formData))
   }
   return (
     <div>
@@ -112,18 +129,6 @@ const AddProductForm = () => {
 
         <Form.Group className="mb-3">
           <Form.Label>* Category</Form.Label>
-          {/* <Form.Select
-            aria-label="Default select example"
-            name="category"
-            onChange={handleOnChange}
-            required
-            multiple
-          >
-            <option value="">Select Categories</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select> */}
           <Form.Select
             name="category"
             onChange={handleOnChange}
@@ -189,9 +194,18 @@ const AddProductForm = () => {
           />
         </Form.Group>
 
-        {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group> */}
+        {/* Image uploader */}
+        <Form.Group className="mb-3">
+          <Form.Label>Upload Image</Form.Label>
+          <Form.Control
+            name="image"
+            type="file"
+            onChange={handleOnImageSelect}
+            multiple
+            accept="image/*"
+          />
+        </Form.Group>
+
         <Button variant="warning" type="submit">
           Add Product
         </Button>

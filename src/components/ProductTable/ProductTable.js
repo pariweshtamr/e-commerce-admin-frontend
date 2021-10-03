@@ -24,26 +24,32 @@ const ProductTable = () => {
           </tr>
         </thead>
         <tbody>
-          {!productList?.length
-            ? 'No products to display'
-            : productList.map((row) => (
-                <tr key={row._id}>
-                  <td>1</td>
-                  <td>Online</td>
-                  <td className="text-start">{row.title}</td>
-                  <td>${row.price}</td>
-                  <td>
-                    <Button variant="info">
-                      <i class="fas fa-pencil-alt"></i>Edit
-                    </Button>
-                  </td>
-                  <td>
-                    <Button variant="danger">
-                      <i class="fas fa-trash"></i>Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+          {!productList?.length ? (
+            <tr>
+              <td colSpan="6" className="text-center">
+                No products to display
+              </td>
+            </tr>
+          ) : (
+            productList.map((row, i) => (
+              <tr key={row._id}>
+                <td>{i + 1}</td>
+                <td>Online</td>
+                <td className="text-start">{row.title}</td>
+                <td>${row.price}</td>
+                <td>
+                  <Button variant="info">
+                    <i className="fas fa-pencil-alt me-2"></i>Edit
+                  </Button>
+                </td>
+                <td>
+                  <Button variant="danger">
+                    <i className="fas fa-trash"></i>Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </div>
