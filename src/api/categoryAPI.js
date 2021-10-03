@@ -1,64 +1,63 @@
-import axios from "axios";
+import axios from 'axios'
 
 const rootUrl =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? process.env.ROOT_URL
-    : "http://localhost:8000/api/v1";
-const catApi = rootUrl + "/category";
+    : 'http://localhost:8000/api/v1'
+const catApi = rootUrl + '/category'
 
 export const createCategory = async (newCategory) => {
   try {
     const { data } = await axios.post(catApi, newCategory, {
       headers: {
-        authorization: window.sessionStorage.getItem("accessJWT"),
+        authorization: window.sessionStorage.getItem('accessJWT'),
       },
-    });
-    return data;
+    })
+    return data
   } catch (error) {
-    console.log(error);
-    return error?.response?.data;
+    return error?.response?.data
   }
-};
+}
 
 export const fetchCategory = async () => {
   try {
     const { data } = await axios.get(catApi, {
       headers: {
-        authorization: window.sessionStorage.getItem("accessJWT"),
+        authorization: window.sessionStorage.getItem('accessJWT'),
       },
-    });
+    })
 
-    return data;
+    return data
   } catch (error) {
-    console.log(error.response);
-    return error?.response?.data;
+    console.log(error.response)
+    return error?.response?.data
   }
-};
+}
 
 export const deleteCategory = async (_id) => {
   try {
     const { data } = await axios.delete(`${catApi}/${_id}`, {
       headers: {
-        authorization: window.sessionStorage.getItem("accessJWT"),
+        authorization: window.sessionStorage.getItem('accessJWT'),
       },
-    });
-    return data;
+    })
+    return data
   } catch (error) {
-    console.log(error);
-    return error?.response?.data;
+    console.log(error)
+    return error?.response?.data
   }
-};
+}
 
 export const updateCategory = async (catObj) => {
   try {
     const { data } = await axios.patch(catApi, catObj, {
       headers: {
-        authorization: window.sessionStorage.getItem("accessJWT"),
+        authorization: window.sessionStorage.getItem('accessJWT'),
       },
-    });
-    return data;
+    })
+    return data
   } catch (error) {
-    console.log(error);
-    return error?.response?.data;
+    console.log(error)
+    return error?.response?.data
   }
-};
+}

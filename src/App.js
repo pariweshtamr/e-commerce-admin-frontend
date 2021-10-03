@@ -3,6 +3,7 @@ import Register from './pages/Register/Register'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Category from './pages/Category/Category'
 import Product from './pages/Product/Product'
+import NewProduct from './pages/Product/NewProduct'
 import Order from './pages/Order/Order'
 import Customer from './pages/Customer/Customer'
 import AdminProfile from './pages/Admin-profile/AdminProfile'
@@ -24,8 +25,11 @@ function App() {
         <PrivateRoute path="/categories">
           <Category />
         </PrivateRoute>
-        <PrivateRoute path="/products">
+        <PrivateRoute exact path="/products">
           <Product />
+        </PrivateRoute>
+        <PrivateRoute exact path="/products/new">
+          <NewProduct />
         </PrivateRoute>
         <PrivateRoute path="/orders">
           <Order />
