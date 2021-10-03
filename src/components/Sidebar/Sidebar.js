@@ -1,13 +1,13 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import Admin from "../../assets/images/admin-logo.png";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import Admin from '../../assets/images/admin-logo.png'
 
-import "./sidebar.css";
+import './sidebar.css'
 
-const Sidebar = () => {
+const Sidebar = ({ sideToggle }) => {
   return (
-    <>
-      <div className="sidebar">
+    <div className={`${sideToggle ? 'side-toggle' : 'sidebar'}`}>
+      <div className="left bg-dark">
         <div className="side-menu">
           <NavLink to="/dashboard">
             <img className="img" src={Admin} alt="Admin Logo" />
@@ -84,8 +84,8 @@ const Sidebar = () => {
           </ul>
         </div>
       </div>
-    </>
-  );
-};
+    </div>
+  )
+}
 
-export default Sidebar;
+export default Sidebar

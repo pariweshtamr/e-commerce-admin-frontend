@@ -1,15 +1,17 @@
-import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { userLogout } from "../../pages/admin-auth-slice/userAction";
-import { NavLink } from "react-router-dom";
+import React from 'react'
+import { Container, Nav, Navbar } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { userLogout } from '../../pages/admin-auth-slice/userAction'
+import { NavLink } from 'react-router-dom'
+
+import './header.css'
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleOnLogout = () => {
-    dispatch(userLogout());
-  };
+    dispatch(userLogout())
+  }
   return (
     <>
       <Navbar collapseOnSelect bg="Light" expand="md">
@@ -18,7 +20,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <NavLink exact to="/admin-profile">
-                <i class="fas fa-user"></i>
+                <i className="fas fa-user"></i>
               </NavLink>
               <Nav.Link onClick={handleOnLogout}>Log Out</Nav.Link>
             </Nav>
@@ -26,7 +28,7 @@ const Header = () => {
         </Container>
       </Navbar>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
