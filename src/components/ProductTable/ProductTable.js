@@ -1,21 +1,43 @@
 import React, { useEffect } from 'react'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Spinner, Alert } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchProducts } from '../../pages/Product/ProductAction'
+import {
+  fetchProducts,
+  deleteProductAction,
+} from '../../pages/Product/ProductAction'
 
 const ProductTable = () => {
   const dispatch = useDispatch()
-  const { productList } = useSelector((state) => state.product)
+  const { productList, isPending, productResponse } = useSelector(
+    (state) => state.product,
+  )
 
   useEffect(() => {
-    !productList.length && dispatch(fetchProducts())
+    !productList?.length && dispatch(fetchProducts())
   }, [dispatch])
+
+  const handleOnDelete = (_id) => {
+    if (window.confirm('Are you sure you want to delete the product?')) {
+      _id && dispatch(deleteProductAction(_id))
+    }
+  }
   return (
     <div>
+      {isPending && <Spinner variant="info" animation="border" />}
+
+      {productResponse.message && (
+        <Alert
+          variant={productResponse.status === 'success' ? 'success' : 'danger'}
+        >
+          {' '}
+          {productResponse.message}
+        </Alert>
+      )}
       <Table striped bordered hover size="sm" className="text-center">
         <thead>
           <tr>
             <th>#</th>
+            <th>THUMBNAIL</th>
             <th>STATUS</th>
             <th>TITLE</th>
             <th>PRICE</th>
@@ -34,8 +56,11 @@ const ProductTable = () => {
             productList.map((row, i) => (
               <tr key={row._id}>
                 <td>{i + 1}</td>
+                <td>
+                  <img src={row?.images[0]} alt={row.title} width="150px" />
+                </td>
                 <td>Online</td>
-                <td className="text-start">{row.title}</td>
+                <td className="text-start px-2">{row.title}</td>
                 <td>${row.price}</td>
                 <td>
                   <Button variant="info">
@@ -43,8 +68,11 @@ const ProductTable = () => {
                   </Button>
                 </td>
                 <td>
-                  <Button variant="danger">
-                    <i className="fas fa-trash"></i>Delete
+                  <Button
+                    variant="danger"
+                    onClick={() => handleOnDelete(row._id)}
+                  >
+                    <i className="fas fa-trash me-2"></i>Delete
                   </Button>
                 </td>
               </tr>

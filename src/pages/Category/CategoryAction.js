@@ -3,100 +3,101 @@ import {
   catResponseSuccess,
   fetchCatRespSuccess,
   catRequestFail,
-} from "./CategorySlice";
+} from './CategorySlice'
 import {
   createCategory,
   fetchCategory,
   deleteCategory,
   updateCategory,
-} from "../../api/categoryAPI";
-import { updateAccessJWT } from "../../api/tokenAPI";
-import { userLogout } from "../admin-auth-slice/userAction";
+} from '../../api/categoryAPI'
+import { updateAccessJWT } from '../../api/tokenAPI'
+import { userLogout } from '../admin-auth-slice/userAction'
 
 export const createCat = (newCategory) => async (dispatch) => {
-  dispatch(catRequestPending());
+  dispatch(catRequestPending())
 
   //call api
-  const data = await createCategory(newCategory);
-  if (data?.message === "jwt expired") {
+  const data = await createCategory(newCategory)
+  if (data?.message === 'jwt expired') {
     //request for new accessJWT
-    const token = await updateAccessJWT();
+    const token = await updateAccessJWT()
     if (token) {
-      return dispatch(createCat(newCategory));
+      return dispatch(createCat(newCategory))
     } else {
-      dispatch(userLogout());
+      dispatch(userLogout())
     }
   }
 
-  if (data?.status === "success") {
-    dispatch(fetchCat());
-    return dispatch(catResponseSuccess(data));
+  if (data?.status === 'success') {
+    dispatch(fetchCat())
+    return dispatch(catResponseSuccess(data))
   }
-  dispatch(catRequestFail(data));
-};
+  dispatch(catRequestFail(data))
+}
 
 export const fetchCat = () => async (dispatch) => {
-  dispatch(catRequestPending());
+  dispatch(catRequestPending())
 
   //call api
-  const { status, message, categories } = await fetchCategory();
+  const { status, message, categories } = await fetchCategory()
 
-  if (message === "jwt expired") {
+  // auto re-auth
+  if (message === 'jwt expired') {
     //request for new accessJWT
-    const token = await updateAccessJWT();
+    const token = await updateAccessJWT()
     if (token) {
-      return dispatch(fetchCat());
+      return dispatch(fetchCat())
     } else {
-      dispatch(userLogout());
+      dispatch(userLogout())
     }
   }
 
-  if (status === "success") {
-    return dispatch(fetchCatRespSuccess(categories));
+  if (status === 'success') {
+    return dispatch(fetchCatRespSuccess(categories))
   }
-  dispatch(catRequestFail({ status, message }));
-};
+  dispatch(catRequestFail({ status, message }))
+}
 
 export const deleteCat = (_id) => async (dispatch) => {
-  dispatch(catRequestPending());
+  dispatch(catRequestPending())
 
   //call api
-  const data = await deleteCategory(_id);
-  if (data?.message === "jwt expired") {
+  const data = await deleteCategory(_id)
+  if (data?.message === 'jwt expired') {
     //request for new accessJWT
-    const token = await updateAccessJWT();
+    const token = await updateAccessJWT()
     if (token) {
-      return dispatch(deleteCat(_id));
+      return dispatch(deleteCat(_id))
     } else {
-      dispatch(userLogout());
+      dispatch(userLogout())
     }
   }
 
-  if (data.status === "success") {
-    dispatch(fetchCat());
-    return dispatch(catResponseSuccess(data));
+  if (data.status === 'success') {
+    dispatch(fetchCat())
+    return dispatch(catResponseSuccess(data))
   }
-  dispatch(catRequestFail(data));
-};
+  dispatch(catRequestFail(data))
+}
 
 export const updateCat = (catObj) => async (dispatch) => {
-  dispatch(catRequestPending());
+  dispatch(catRequestPending())
 
   //call api
-  const data = await updateCategory(catObj);
-  if (data?.message === "jwt expired") {
+  const data = await updateCategory(catObj)
+  if (data?.message === 'jwt expired') {
     //request for new accessJWT
-    const token = await updateAccessJWT();
+    const token = await updateAccessJWT()
     if (token) {
-      return dispatch(updateCat(catObj));
+      return dispatch(updateCat(catObj))
     } else {
-      dispatch(userLogout());
+      dispatch(userLogout())
     }
   }
 
-  if (data.status === "success") {
-    dispatch(fetchCat());
-    return dispatch(catResponseSuccess(data));
+  if (data.status === 'success') {
+    dispatch(fetchCat())
+    return dispatch(catResponseSuccess(data))
   }
-  dispatch(catRequestFail(data));
-};
+  dispatch(catRequestFail(data))
+}

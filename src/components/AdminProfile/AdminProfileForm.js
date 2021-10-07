@@ -229,6 +229,8 @@ export const AdminPasswordResetForm = () => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     // validation testing
+
+    //
     let isMatched = false
     if (name === 'password') {
       setPassError({

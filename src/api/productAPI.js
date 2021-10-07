@@ -9,7 +9,11 @@ const prodApi = rootUrl + '/product'
 export const getProduct = async (slug) => {
   try {
     const urlEndpoint = slug ? `${prodApi}/${slug}` : prodApi
-    const { data } = await axios.get(urlEndpoint)
+    const { data } = await axios.get(urlEndpoint, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
 
     return data
   } catch (error) {
@@ -19,7 +23,25 @@ export const getProduct = async (slug) => {
 
 export const addProduct = async (newProduct) => {
   try {
-    const { data } = await axios.post(prodApi, newProduct)
+    const { data } = await axios.post(prodApi, newProduct, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
+    return data
+  } catch (error) {
+    console.log(error)
+    return error?.response?.data
+  }
+}
+
+export const deleteProduct = async (_id) => {
+  try {
+    const { data } = await axios.delete(prodApi + '/' + _id, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
     return data
   } catch (error) {
     console.log(error)
