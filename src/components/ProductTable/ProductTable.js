@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Table, Button, Spinner, Alert } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import {
   fetchProducts,
   deleteProductAction,
@@ -59,13 +60,21 @@ const ProductTable = () => {
                 <td>
                   <img src={row?.images[0]} alt={row.title} width="150px" />
                 </td>
-                <td>Online</td>
+                <td>
+                  {row.status ? (
+                    <span className="text-success">Online</span>
+                  ) : (
+                    <span className="text-warning">Offline</span>
+                  )}
+                </td>
                 <td className="text-start px-2">{row.title}</td>
                 <td>${row.price}</td>
                 <td>
-                  <Button variant="info">
-                    <i className="fas fa-pencil-alt me-2"></i>Edit
-                  </Button>
+                  <NavLink to={`/products/edit/${row.slug}`}>
+                    <Button variant="info">
+                      <i className="fas fa-pencil-alt me-2"></i>Edit
+                    </Button>
+                  </NavLink>
                 </td>
                 <td>
                   <Button

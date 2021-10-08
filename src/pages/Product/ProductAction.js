@@ -4,6 +4,7 @@ import {
   addProdSuccess,
   deleteProdSuccess,
   getProductsSuccess,
+  getSingleProductsSuccess,
 } from './ProductSlice'
 import { getProduct, addProduct, deleteProduct } from '../../api/productAPI'
 import { updateAccessJWT } from '../../api/tokenAPI'
@@ -27,6 +28,30 @@ export const fetchProducts = () => async (dispatch) => {
 
   if (data?.status === 'success') {
     data.products && dispatch(getProductsSuccess(data))
+    return
+  }
+
+  dispatch(respondFail(data))
+}
+
+export const fetchAProduct = (slug) => async (dispatch) => {
+  dispatch(respondPending())
+  const data = await getProduct(slug)
+
+  // auto re-auth
+  if (data.message === 'jwt expired') {
+    //request for new accessJWT
+    const token = await updateAccessJWT()
+    if (token) {
+      return dispatch(fetchAProduct(slug))
+    } else {
+      dispatch(userLogout())
+    }
+  }
+  //end auto re-auth
+
+  if (data?.status === 'success') {
+    data.products && dispatch(getSingleProductsSuccess(data))
     return
   }
 

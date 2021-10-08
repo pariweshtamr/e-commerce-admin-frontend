@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button, Spinner, Alert } from 'react-bootstrap'
 import { fetchCat } from '../../pages/Category/CategoryAction'
-import { addProductAction } from '../../pages/Product/ProductAction'
+import {
+  addProductAction,
+  fetchAProduct,
+} from '../../pages/Product/ProductAction'
+import { useParams } from 'react-router-dom'
 import ProductCategoryList from '../Product-category-List/ProductCategoryList'
 
 const initialState = {
@@ -17,44 +21,56 @@ const initialState = {
   description: '',
 }
 
-const AddProductForm = () => {
+const EditProductForm = () => {
+  const { slug } = useParams()
   const dispatch = useDispatch()
-  const [product, setProduct] = useState(initialState)
+
+  // const [product, setProduct] = useState(initialState)
+  const [updateProduct, setUpdateProduct] = useState(initialState)
   const [images, setImages] = useState([])
   const [selectedCats, setSelectedCats] = useState([])
+  const [imgToDelete, setImgToDelete] = useState([])
 
-  const { isPending, productResponse } = useSelector((state) => state.product)
+  const { isPending, productResponse, selectedProduct } = useSelector(
+    (state) => state.product,
+  )
 
   useEffect(() => {
-    dispatch(fetchCat())
-  }, [dispatch])
+    if (!selectedProduct?._id || slug !== selectedProduct.slug) {
+      dispatch(fetchAProduct(slug))
+      dispatch(fetchCat())
+    }
+
+    setUpdateProduct(selectedProduct)
+    setSelectedCats(selectedProduct.categories)
+  }, [dispatch, slug, selectedProduct, selectedProduct._id])
 
   const handleOnChange = (e) => {
     const { checked, name, value } = e.target
     if (name === 'status') {
-      setProduct({
-        ...product,
+      setUpdateProduct({
+        ...updateProduct,
         status: checked,
       })
       return
     }
 
     if (name === 'category') {
-      setProduct({
-        ...product,
-        category: [...product.category, value],
+      setUpdateProduct({
+        ...updateProduct,
+        category: [value],
       })
       return
     }
 
-    setProduct({
-      ...product,
+    setUpdateProduct({
+      ...updateProduct,
       [name]: value,
     })
   }
 
   const handleOnImageSelect = (e) => {
-    const { name, files } = e.target
+    const { files } = e.target
 
     setImages(files)
   }
@@ -62,34 +78,41 @@ const AddProductForm = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault()
 
+    return alert('Still to do')
     // combine forma data and images as multipart of form
 
     const formData = new FormData()
 
-    for (const key in product) {
-      formData.append(key, product[key])
+    for (const key in updateProduct) {
+      formData.append(key, updateProduct[key])
     }
-    //add category list as well
-    formData.append('categories', selectedCats)
-
     images.length && [...images].map((img) => formData.append('images', img))
 
     dispatch(addProductAction(formData))
-
-    window.scrollTo(0, 0)
   }
+
   const handleOnCatSelect = (e) => {
     const { checked, value } = e.target
     if (checked) {
       //add on the state list
-      selectedCats([...selectedCats, value])
+      setSelectedCats([...selectedCats, value])
     } else {
       //remove from the state list
       const args = selectedCats.filter((catId) => catId !== value)
-      selectedCats(args)
+      setSelectedCats(args)
     }
   }
 
+  const handleOnImageDelete = (e) => {
+    const { checked, value } = e.target
+    if (checked) {
+      setImgToDelete([...imgToDelete, value])
+    } else {
+      const args = imgToDelete.filter((source) => source !== value)
+
+      setImgToDelete(args)
+    }
+  }
   return (
     <div>
       {isPending && <Spinner variant="primary" animation="border" />}
@@ -106,6 +129,7 @@ const AddProductForm = () => {
           <Form.Check
             name="status"
             type="switch"
+            checked={updateProduct.status}
             id="custom-switch"
             label="Status"
             onChange={handleOnChange}
@@ -116,6 +140,7 @@ const AddProductForm = () => {
           <Form.Label>* Title</Form.Label>
           <Form.Control
             name="title"
+            value={updateProduct.title}
             placeholder="Product name"
             onChange={handleOnChange}
             required
@@ -126,6 +151,7 @@ const AddProductForm = () => {
           <Form.Label>* Price</Form.Label>
           <Form.Control
             name="price"
+            value={updateProduct.price}
             type="number"
             placeholder="$$$"
             onChange={handleOnChange}
@@ -137,6 +163,7 @@ const AddProductForm = () => {
           <Form.Label>* Quantity</Form.Label>
           <Form.Control
             name="qty"
+            value={updateProduct.qty}
             type="number"
             placeholder="Qty"
             onChange={handleOnChange}
@@ -146,13 +173,17 @@ const AddProductForm = () => {
 
         <Form.Group>
           <Form.Label>Select Categories</Form.Label>
-          <ProductCategoryList handleOnCatSelect={handleOnCatSelect} />
+          <ProductCategoryList
+            selectedCats={selectedCats}
+            handleOnCatSelect={handleOnCatSelect}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Sales Price</Form.Label>
           <Form.Control
             name="salesPrice"
+            value={updateProduct.salesPrice}
             type="number"
             placeholder="$$$"
             onChange={handleOnChange}
@@ -163,6 +194,11 @@ const AddProductForm = () => {
           <Form.Label>Sale Start Date</Form.Label>
           <Form.Control
             name="salesStartDate"
+            value={
+              updateProduct.salesStartDate
+                ? updateProduct.salesStartDate?.substr(0, 10)
+                : null
+            }
             type="date"
             onChange={handleOnChange}
           />
@@ -172,6 +208,11 @@ const AddProductForm = () => {
           <Form.Label>Sale End Date</Form.Label>
           <Form.Control
             name="salesEndDate"
+            value={
+              updateProduct.salesStartDate
+                ? updateProduct.salesStartDate?.substr(0, 10)
+                : null
+            }
             type="date"
             onChange={handleOnChange}
           />
@@ -181,6 +222,7 @@ const AddProductForm = () => {
           <Form.Label>Brand</Form.Label>
           <Form.Control
             name="brand"
+            value={updateProduct.brand}
             placeholder="Brand Name"
             onChange={handleOnChange}
           />
@@ -191,11 +233,29 @@ const AddProductForm = () => {
           <Form.Control
             as="textarea"
             name="description"
+            value={updateProduct.description}
             placeholder="..."
             style={{ height: '150px' }}
             onChange={handleOnChange}
             required
           />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Select an image to delete</Form.Label>
+          <div className="d-flex">
+            {updateProduct?.images &&
+              updateProduct.images.map((imgLink, i) => (
+                <div className="img-thumbnail" key={i}>
+                  {' '}
+                  <Form.Check
+                    defaultValue={imgLink}
+                    onChange={handleOnImageSelect}
+                  />
+                  <img src={imgLink} alt="product image" width="150px" />
+                </div>
+              ))}
+          </div>
         </Form.Group>
 
         {/* Image uploader */}
@@ -204,18 +264,18 @@ const AddProductForm = () => {
           <Form.Control
             name="image"
             type="file"
-            onChange={handleOnImageSelect}
+            onChange={handleOnImageDelete}
             multiple
             accept="image/*"
           />
         </Form.Group>
 
         <Button variant="warning" type="submit">
-          Add Product
+          Update
         </Button>
       </Form>
     </div>
   )
 }
 
-export default AddProductForm
+export default EditProductForm

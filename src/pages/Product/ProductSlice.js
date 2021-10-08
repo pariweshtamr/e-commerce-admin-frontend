@@ -4,6 +4,7 @@ const initialState = {
   isPending: false,
   productResponse: {},
   productList: [],
+  selectedProduct: {},
 }
 
 const productSlice = createSlice({
@@ -16,6 +17,14 @@ const productSlice = createSlice({
     getProductsSuccess: (state, { payload = [] }) => {
       state.isPending = false
       state.productList = payload.products
+    },
+    getSingleProductsSuccess: (state, { payload = {} }) => {
+      state.isPending = false
+      state.selectedProduct = payload.products
+    },
+    resetSingleProductsSuccess: (state) => {
+      state.isPending = false
+      state.selectedProduct = {}
     },
     addProdSuccess: (state, { payload }) => {
       state.isPending = false
@@ -39,6 +48,8 @@ export const {
   addProdSuccess,
   deleteProdSuccess,
   getProductsSuccess,
+  resetSingleProductsSuccess,
+  getSingleProductsSuccess,
 } = actions
 
 export default reducer

@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Category from './pages/Category/Category'
 import Product from './pages/Product/Product'
 import NewProduct from './pages/Product/NewProduct'
+import EditProduct from './pages/Product/EditProduct'
 import Order from './pages/Order/Order'
 import Customer from './pages/Customer/Customer'
 import AdminProfile from './pages/Admin-profile/AdminProfile'
@@ -30,6 +31,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute exact path="/products/new">
           <NewProduct />
+        </PrivateRoute>
+        <PrivateRoute exact path="/products/edit/:slug">
+          <EditProduct />
         </PrivateRoute>
         <PrivateRoute path="/orders">
           <Order />

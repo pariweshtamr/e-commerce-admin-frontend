@@ -35,3 +35,8 @@
 .admin-layout {
   min-height: 100vh;
 }
+
+.product-list-category {
+  max-height: 250px;
+  overflow: scroll;
+}

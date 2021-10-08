@@ -1,3 +1,5 @@
+#product dir
+/public/images/products/
 # Logs
 logs
 *.log
