@@ -54,7 +54,7 @@ const AddProductForm = () => {
   }
 
   const handleOnImageSelect = (e) => {
-    const { name, files } = e.target
+    const { files } = e.target
 
     setImages(files)
   }
@@ -82,11 +82,11 @@ const AddProductForm = () => {
     const { checked, value } = e.target
     if (checked) {
       //add on the state list
-      selectedCats([...selectedCats, value])
+      setSelectedCats([...selectedCats, value])
     } else {
       //remove from the state list
       const args = selectedCats.filter((catId) => catId !== value)
-      selectedCats(args)
+      setSelectedCats(args)
     }
   }
 

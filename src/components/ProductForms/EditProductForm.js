@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button, Spinner, Alert } from 'react-bootstrap'
 import { fetchCat } from '../../pages/Category/CategoryAction'
 import {
-  addProductAction,
+  updateProductAction,
   fetchAProduct,
 } from '../../pages/Product/ProductAction'
 import { useParams } from 'react-router-dom'
@@ -14,8 +14,8 @@ const initialState = {
   title: '',
   price: 0,
   salesPrice: 0,
-  salesStartDate: '',
-  salesEndDate: '',
+  salesStartDate: undefined,
+  salesEndDate: undefined,
   brand: '',
   qty: 0,
   description: '',
@@ -78,17 +78,47 @@ const EditProductForm = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault()
 
-    return alert('Still to do')
     // combine forma data and images as multipart of form
 
     const formData = new FormData()
 
-    for (const key in updateProduct) {
-      formData.append(key, updateProduct[key])
-    }
-    images.length && [...images].map((img) => formData.append('images', img))
+    const {
+      createdAt,
+      updatedAt,
+      __v,
+      categories,
+      slug,
+      ...rest
+    } = updateProduct
 
-    dispatch(addProductAction(formData))
+    for (const key in rest) {
+      if (key === 'images') {
+        continue
+      }
+      if (key === 'salesStartDate' || key === 'salesEndDate') {
+        const val = rest[key] ? rest[key] : ''
+
+        formData.append(key, val)
+        continue
+      }
+      formData.append(key, rest[key])
+    }
+
+    //keep old images
+    formData.append('existingImages', rest.images)
+
+    //add new uploaded images
+    images?.length && [...images].map((img) => formData.append('images', img))
+
+    //add categories
+    formData.append('categories', selectedCats)
+
+    //add images to be deleted
+    formData.append('imgToDelete', imgToDelete)
+
+    dispatch(updateProductAction(formData, slug))
+
+    window.scrollTo(0, 0)
   }
 
   const handleOnCatSelect = (e) => {
@@ -105,6 +135,7 @@ const EditProductForm = () => {
 
   const handleOnImageDelete = (e) => {
     const { checked, value } = e.target
+    console.log(checked, value)
     if (checked) {
       setImgToDelete([...imgToDelete, value])
     } else {
@@ -197,7 +228,7 @@ const EditProductForm = () => {
             value={
               updateProduct.salesStartDate
                 ? updateProduct.salesStartDate?.substr(0, 10)
-                : null
+                : undefined
             }
             type="date"
             onChange={handleOnChange}
@@ -209,9 +240,9 @@ const EditProductForm = () => {
           <Form.Control
             name="salesEndDate"
             value={
-              updateProduct.salesStartDate
-                ? updateProduct.salesStartDate?.substr(0, 10)
-                : null
+              updateProduct.salesEndDate
+                ? updateProduct.salesEndDate?.substr(0, 10)
+                : undefined
             }
             type="date"
             onChange={handleOnChange}
@@ -250,9 +281,9 @@ const EditProductForm = () => {
                   {' '}
                   <Form.Check
                     defaultValue={imgLink}
-                    onChange={handleOnImageSelect}
+                    onChange={handleOnImageDelete}
                   />
-                  <img src={imgLink} alt="product image" width="150px" />
+                  <img src={imgLink} alt="product-img" width="150px" />
                 </div>
               ))}
           </div>
@@ -264,7 +295,7 @@ const EditProductForm = () => {
           <Form.Control
             name="image"
             type="file"
-            onChange={handleOnImageDelete}
+            onChange={handleOnImageSelect}
             multiple
             accept="image/*"
           />

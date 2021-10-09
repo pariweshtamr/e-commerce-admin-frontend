@@ -30,6 +30,10 @@ const productSlice = createSlice({
       state.isPending = false
       state.productResponse = payload
     },
+    updateProdSuccess: (state, { payload }) => {
+      state.isPending = false
+      state.productResponse = payload
+    },
     deleteProdSuccess: (state, { payload }) => {
       state.isPending = false
       state.productResponse = payload
@@ -46,6 +50,7 @@ export const {
   respondPending,
   respondFail,
   addProdSuccess,
+  updateProdSuccess,
   deleteProdSuccess,
   getProductsSuccess,
   resetSingleProductsSuccess,

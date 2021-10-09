@@ -35,6 +35,20 @@ export const addProduct = async (newProduct) => {
   }
 }
 
+export const updateProduct = async (prodObj) => {
+  try {
+    const { data } = await axios.put(prodApi, prodObj, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
+    return data
+  } catch (error) {
+    console.log(error)
+    return error?.response?.data
+  }
+}
+
 export const deleteProduct = async (_id) => {
   try {
     const { data } = await axios.delete(prodApi + '/' + _id, {

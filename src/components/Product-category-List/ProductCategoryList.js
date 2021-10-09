@@ -13,6 +13,7 @@ const ProductCategoryList = ({ handleOnCatSelect, selectedCats }) => {
             <ListGroup.Item key={i}>
               <input
                 type="checkbox"
+                className="me-2"
                 name="category"
                 checked={selectedCats?.includes(row._id)}
                 defaultValue={row._id}
