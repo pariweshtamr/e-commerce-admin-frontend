@@ -1,50 +1,57 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isLoading: false,
-    categoryResponse: {},
-    show: false,
-    selectedCategory: {},
-    categories: []
+  isLoading: false,
+  categoryResponse: {},
+  show: false,
+  selectedCategory: {},
+  categories: [],
 }
 
 const categorySlice = createSlice({
-    name: "category",
-    initialState,
-    reducers: {
-        catRequestPending: state =>{
-            state.isLoading = true
-        },
+  name: 'category',
+  initialState,
+  reducers: {
+    catRequestPending: (state) => {
+      state.isLoading = true
+    },
 
-        catResponseSuccess: (state, {payload})=>{
-            state.isLoading = false
-            state.categoryResponse = payload
-        }, 
+    catResponseSuccess: (state, { payload }) => {
+      state.isLoading = false
+      state.categoryResponse = payload
+    },
 
-        fetchCatRespSuccess: (state, {payload})=>{
-            state.isLoading = false
-            state.categories = payload
-        },
-        
-        catRespReset : (state) =>{
-            state.isLoading = false
-            state.categoryResponse = {}
-        },
+    fetchCatRespSuccess: (state, { payload }) => {
+      state.isLoading = false
+      state.categories = payload
+    },
 
-        onCategorySelect: (state, {payload})=>{
-            state.show = !state.show
-            state.selectedCategory = payload || {}
-        },
+    catRespReset: (state) => {
+      state.isLoading = false
+      state.categoryResponse = {}
+    },
 
-        catRequestFail: (state, {payload})=>{
-            state.isLoading = false
-            state.categoryResponse = payload
-        }    
-    }
+    onCategorySelect: (state, { payload }) => {
+      state.show = !state.show
+      state.selectedCategory = payload || {}
+    },
+
+    catRequestFail: (state, { payload }) => {
+      state.isLoading = false
+      state.categoryResponse = payload
+    },
+  },
 })
 
-const {reducer, actions} = categorySlice
+const { reducer, actions } = categorySlice
 
-export const {catRequestPending, catResponseSuccess,fetchCatRespSuccess, catRespReset, onCategorySelect, catRequestFail} = actions
+export const {
+  catRequestPending,
+  catResponseSuccess,
+  fetchCatRespSuccess,
+  catRespReset,
+  onCategorySelect,
+  catRequestFail,
+} = actions
 
 export default reducer
