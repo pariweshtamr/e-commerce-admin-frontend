@@ -1,0 +1,15 @@
+.custom-card {
+  /* background: linear-gradient(to right, #ffc107e3, rgb(228, 188, 188)); */
+  min-height: 200px;
+  padding: 2rem;
+}
+.card-top i {
+  font-size: 10rem;
+}
+.card-data {
+  font-size: 1.5rem;
+  font-weight: Normal;
+  padding: 5px 15px;
+  border-radius: 10px;
+  background: #ffc107e3;
+}
