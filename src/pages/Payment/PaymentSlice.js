@@ -24,6 +24,16 @@ const paymentSlice = createSlice({
       state.paymentOptions = payload
     },
 
+    deletePaymentsRespSuccess: (state, { payload = {} }) => {
+      state.isPending = false
+      state.paymentResponse = payload
+    },
+
+    resetResponseMsg: (state) => {
+      state.isPending = false
+      state.paymentResponse = {}
+    },
+
     paymentRespError: (state, { payload }) => {
       state.isPending = false
       state.paymentResponse = payload
@@ -37,6 +47,8 @@ export const {
   paymentRespPending,
   paymentRespError,
   paymentRespSuccess,
+  deletePaymentsRespSuccess,
+  resetResponseMsg,
   getPaymentsRespSuccess,
 } = actions
 

@@ -34,3 +34,31 @@ export const addPaymentOption = async (obj) => {
     return error?.message?.data
   }
 }
+
+export const deletePaymentOption = async (_id) => {
+  try {
+    const { data } = await axios.delete(paymentApi + '/' + _id, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
+
+    return data
+  } catch (error) {
+    return error?.message?.data
+  }
+}
+
+export const updatePaymentOption = async (obj) => {
+  try {
+    const { data } = await axios.patch(paymentApi, obj, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
+
+    return data
+  } catch (error) {
+    return error?.message?.data
+  }
+}
