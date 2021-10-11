@@ -15,6 +15,7 @@ import PageNotFound from './components/PageNotFound/PageNotFound'
 import EmailVerification from './pages/Email-verification/EmailVerification'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import AdminList from './pages/AdminList/AdminList'
 
 function App() {
   return (
@@ -46,6 +47,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/payments">
           <Payment />
+        </PrivateRoute>
+        <PrivateRoute path="/admin-user">
+          <AdminList />
         </PrivateRoute>
         <PrivateRoute path="/registration">
           <Register />

@@ -93,6 +93,7 @@ ul li a.menu-item:hover::before {
   position: fixed;
   z-index: 1;
 }
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1200px) {

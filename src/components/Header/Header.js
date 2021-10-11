@@ -19,7 +19,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <NavLink exact to="/admin-profile">
+              <NavLink className="header-icon" exact to="/admin-profile">
                 <i className="fas fa-user"></i>
               </NavLink>
               <Nav.Link onClick={handleOnLogout}>Log Out</Nav.Link>

@@ -51,7 +51,6 @@ const Register = () => {
       [name]: value,
     })
   }
-  console.log(userRegistrationResponse)
 
   return (
     <AdminLayout>
@@ -74,7 +73,7 @@ const Register = () => {
           )}
           <Form action="/" onSubmit={handleOnSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">First Name</Form.Label>
+              <Form.Label className="fw-bold">First Name*</Form.Label>
               <Form.Control
                 onChange={handleOnChange}
                 name="fname"
@@ -83,7 +82,7 @@ const Register = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Last Name</Form.Label>
+              <Form.Label className="fw-bold">Last Name*</Form.Label>
               <Form.Control
                 onChange={handleOnChange}
                 name="lname"
@@ -115,7 +114,7 @@ const Register = () => {
               <Form.Control onChange={handleOnChange} name="dob" type="date" />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Email</Form.Label>
+              <Form.Label className="fw-bold">Email*</Form.Label>
               <Form.Control
                 onChange={handleOnChange}
                 name="email"
@@ -141,7 +140,7 @@ const Register = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Password</Form.Label>
+              <Form.Label className="fw-bold">Password*</Form.Label>
               <Form.Control
                 onChange={handleOnChange}
                 minLength="7"
@@ -152,7 +151,7 @@ const Register = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Confirm Password</Form.Label>
+              <Form.Label className="fw-bold">Confirm Password*</Form.Label>
               <Form.Control
                 onChange={handleOnChange}
                 name="confirmPassword"

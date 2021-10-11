@@ -76,9 +76,9 @@ const Sidebar = ({ sideToggle }) => {
               <NavLink
                 className="menu-item"
                 activeClassName="active-class"
-                to="/registration"
+                to="/admin-user"
               >
-                <i className="fas fa-user me-3"></i>Add Admin User
+                <i className="fas fa-user me-3"></i>Admin User
               </NavLink>
             </li>
           </ul>
