@@ -28,10 +28,12 @@ import {
 } from '../../api/tokenAPI'
 
 export const userRegister = (newUser) => async (dispatch) => {
+  console.log(newUser)
   dispatch(requestPending())
 
   //call api
   const result = await createUser(newUser)
+  console.log(result)
 
   result.status === 'success'
     ? dispatch(responseSuccess(result))

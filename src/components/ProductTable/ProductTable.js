@@ -15,7 +15,7 @@ const ProductTable = () => {
 
   useEffect(() => {
     !productList?.length && dispatch(fetchProducts())
-  }, [dispatch])
+  }, [dispatch, productList])
 
   const handleOnDelete = (_id) => {
     if (window.confirm('Are you sure you want to delete the product?')) {
