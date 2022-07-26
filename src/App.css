@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* ==========Registration page============= */
@@ -28,6 +28,8 @@
   margin: auto;
   box-shadow: -5px 5px 5px 5px grey;
   opacity: 0.8;
+  border: 2px solid red;
+  border-radius: 10px;
 }
 .genders {
   margin-right: 0.5rem;
